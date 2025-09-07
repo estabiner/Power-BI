@@ -20,5 +20,7 @@ ADDCOLUMNS (
     "AnoMes", FORMAT ( [Date], "YYYY-MM" ),     
     "Dia", DAY ( [Date] ),                      -- 10
     "DiaSemanaNumero", WEEKDAY ( [Date], 2 ),   -- 1 = Segunda, 7 = Domingo
-    "DiaSemanaNome", FORMAT ( [Date], "DDDD" )  -- Terça-feira
+    "DiaSemanaNome", FORMAT ( [Date], "DDDD" ), -- Terça-feira
+    "DiaSemanaAbrev", FORMAT ( [Date], "DDD" )  -- Ter
 )
+
