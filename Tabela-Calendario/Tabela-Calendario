@@ -7,20 +7,34 @@ Ele vai gerar a tabela Calendario dentro do modelo.
 Depois marque como tabela de datas em Modelagem → Marcar como tabela de datas.
 
 
-Calendario =
-VAR AnoInicial = 2015
-VAR AnoFinal   = YEAR ( TODAY() )  -- até o ano atual
+dCalendario = 
+-- Define os anos inicial e final do calendário
+VAR AnoInicial = 2013                     -- Ano inicial fixo
+VAR AnoFinal   = YEAR(TODAY())            -- Ano final = ano atual
 RETURN
-ADDCOLUMNS (
-    CALENDAR ( DATE ( AnoInicial, 1, 1 ), DATE ( AnoFinal, 12, 31 ) ),
-    "Ano", YEAR ( [Date] ),
-    "MesNumero", MONTH ( [Date] ),
-    "MesNome", FORMAT ( [Date], "MMMM" ),       -- Janeiro
-    "MesAbrev", FORMAT ( [Date], "MMM" ),       -- Jan
-    "AnoMes", FORMAT ( [Date], "YYYY-MM" ),     
-    "Dia", DAY ( [Date] ),                      -- 10
-    "DiaSemanaNumero", WEEKDAY ( [Date], 2 ),   -- 1 = Segunda, 7 = Domingo
-    "DiaSemanaNome", FORMAT ( [Date], "DDDD" ), -- Terça-feira
-    "DiaSemanaAbrev", FORMAT ( [Date], "DDD" )  -- Ter
+ADDCOLUMNS(
+    CALENDAR(DATE(AnoInicial,1,1), DATE(AnoFinal,12,31)),  -- Cria tabela de datas
+     
+    -- Informações do ano e mês
+    "Ano", YEAR([Date]),                  -- Ano completo (ex: 2025)
+    "NumeroMes", MONTH([Date]),           -- Número do mês (1 a 12)
+    "NomeMes", FORMAT([Date], "MMMM"),    -- Nome do mês completo (Janeiro)
+    "AbrevMes", FORMAT([Date], "MMM"),    -- Nome abreviado do mês (Jan)
+    "AnoMes", FORMAT([Date], "YYYY-MM"),  -- Ano e mês concatenados (2025-09)
+    
+    -- Informações do dia
+    "Dia", DAY([Date]),                    -- Dia do mês (1 a 31)
+    "NumeroDiaSemana", WEEKDAY([Date],2), -- Número do dia da semana (1=Segunda, 7=Domingo)
+    "NomeDiaSemana", FORMAT([Date], "DDDD"),  -- Nome completo do dia (Segunda-feira)
+    "AbrevDiaSemana", FORMAT([Date], "DDD"),  -- Nome abreviado do dia (Seg)
+    
+    -- Informações trimestrais
+    "Trimestre", QUARTER([Date]),                 -- Trimestre (1 a 4)
+    "AnoTrimestre", FORMAT([Date],"YYYY") & "-T" & QUARTER([Date]), -- Ex: 2025-T3
+    
+    -- Informações semanais
+    "SemanaAno", WEEKNUM([Date],2),              -- Número da semana no ano (segunda como início)
+    
+    -- Flag de fim de semana
+    "FimSemana", IF(WEEKDAY([Date],2) >=6,1,0)  -- 1 se for sábado/domingo, 0 se for dia útil
 )
-
