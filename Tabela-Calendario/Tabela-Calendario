@@ -1,0 +1,15 @@
+Calendario =
+VAR AnoInicial = 2015
+VAR AnoFinal   = YEAR ( TODAY() )  -- até o ano atual
+RETURN
+ADDCOLUMNS (
+    CALENDAR ( DATE ( AnoInicial, 1, 1 ), DATE ( AnoFinal, 12, 31 ) ),
+    "Ano", YEAR ( [Date] ),
+    "MesNumero", MONTH ( [Date] ),
+    "MesNome", FORMAT ( [Date], "MMMM" ),       -- Janeiro
+    "MesAbrev", FORMAT ( [Date], "MMM" ),       -- Jan
+    "AnoMes", FORMAT ( [Date], "YYYY-MM" ),     
+    "Dia", DAY ( [Date] ),                      -- 10
+    "DiaSemanaNumero", WEEKDAY ( [Date], 2 ),   -- 1 = Segunda, 7 = Domingo
+    "DiaSemanaNome", FORMAT ( [Date], "DDDD" )  -- Terça-feira
+)
